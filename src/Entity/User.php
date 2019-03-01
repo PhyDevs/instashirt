@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,8 +17,8 @@ class User
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="string")
      */
     private $id;
 
@@ -42,7 +43,24 @@ class User
      */
     private $password;
 
-    public function getId(): ?int
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Shirt", mappedBy="author", orphanRemoval=true)
+     */
+    private $shirts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author", orphanRemoval=true)
+     */
+    private $comments;
+
+
+    public function __construct()
+    {
+        $this->shirts = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+    }
+
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -52,11 +70,9 @@ class User
         return $this->username;
     }
 
-    public function setUsername(string $username): self
+    public function setUsername(string $username): void
     {
         $this->username = $username;
-
-        return $this;
     }
 
     public function getEmail(): ?string
@@ -64,11 +80,9 @@ class User
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email): void
     {
         $this->email = $email;
-
-        return $this;
     }
 
     public function getPassword(): ?string
@@ -76,10 +90,8 @@ class User
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password): void
     {
         $this->password = $password;
-
-        return $this;
     }
 }

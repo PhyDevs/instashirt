@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity()
  * @ORM\Table(name="comments")
  */
-class Comment
+class Comment implements AuthoredEntityInterface
 {
     /**
      * @ORM\Id()

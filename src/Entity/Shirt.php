@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="shirts")
  * @UniqueEntity(fields="slug")
  */
-class Shirt
+class Shirt implements AuthoredEntityInterface
 {
     /**
      * @ORM\Id()

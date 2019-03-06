@@ -1,0 +1,4 @@
+Query:
+  type: object
+  config:
+    description: "The Root Query type."

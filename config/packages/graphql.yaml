@@ -4,6 +4,7 @@ overblog_graphql:
         schema:
             query: Query
             mutation: Mutation
+            types: ["DateTime"]
         mappings:
             auto_discover: false
             types:

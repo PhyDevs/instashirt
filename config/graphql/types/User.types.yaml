@@ -1,0 +1,9 @@
+User:
+  type: object
+  config:
+    description: "The User type."
+    fields:
+      id:
+        type: "String!"
+      username:
+        type: "String!"

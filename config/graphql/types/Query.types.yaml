@@ -2,3 +2,14 @@ Query:
   type: object
   config:
     description: "The Root Query type."
+    fields:
+      # Access a single user field
+      user:
+        type: User
+        description: "Access a single User."
+        args:
+          id:
+            type: "String"
+          username:
+            type: "String"
+        resolve: '@=resolver("get_user", [args])'

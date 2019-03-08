@@ -1,0 +1,15 @@
+Comment:
+  type: object
+  config:
+    description: "The Comment type."
+    fields:
+      id:
+        type: "Int!"
+      content:
+        type: "String!"
+      published_date:
+        type: "DateTime!"
+      author:
+        type: "User"
+      shirt:
+        type: "Shirt"

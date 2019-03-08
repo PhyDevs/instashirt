@@ -1,0 +1,21 @@
+Shirt:
+  type: object
+  config:
+    description: "The Shirt type."
+    fields:
+      id:
+        type: "Int!"
+      title:
+        type: "String!"
+      slug:
+        type: "String!"
+      description:
+        type: "String"
+      front_path:
+        type: "String!"
+      back_path:
+        type: "String!"
+      published_date:
+        type: "DateTime!"
+      author:
+        type: "User"

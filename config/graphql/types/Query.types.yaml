@@ -5,7 +5,7 @@ Query:
     fields:
       # Access a single user field
       user:
-        type: User
+        type: "User"
         description: "Access a single User."
         args:
           id:
@@ -15,7 +15,7 @@ Query:
         resolve: "@=resolver('get_user', [args])"
       # Access a single shirt field
       shirt:
-        type: Shirt
+        type: "Shirt"
         description: "Access a single Shirt."
         args:
           id:
@@ -23,3 +23,11 @@ Query:
           slug:
             type: "String"
         resolve: "@=resolver('get_shirt', [args])"
+      # Access a single comment field
+      comment:
+        type: "Comment"
+        description: "Access a single Comment."
+        args:
+          id:
+            type: "ID!"
+        resolve: "@=resolver('get_comment', [args['id']])"

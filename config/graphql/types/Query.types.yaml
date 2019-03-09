@@ -9,7 +9,17 @@ Query:
         description: "Access a single User."
         args:
           id:
-            type: "String"
+            type: "ID"
           username:
             type: "String"
-        resolve: '@=resolver("get_user", [args])'
+        resolve: "@=resolver('get_user', [args])"
+      # Access a single shirt field
+      shirt:
+        type: Shirt
+        description: "Access a single Shirt."
+        args:
+          id:
+            type: "ID"
+          slug:
+            type: "String"
+        resolve: "@=resolver('get_shirt', [args])"

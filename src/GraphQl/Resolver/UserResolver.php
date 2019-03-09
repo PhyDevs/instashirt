@@ -12,7 +12,7 @@ use Overblog\GraphQLBundle\Error\UserError;
 class UserResolver implements ResolverInterface, AliasedInterface
 {
 
-    protected $em;
+    private $em;
     public function __construct(EntityManagerInterface $manager)
     {
         $this->em = $manager;

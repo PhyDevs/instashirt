@@ -3,6 +3,11 @@ Query:
   config:
     description: "The Root Query type."
     fields:
+      node:
+        builder: Relay::Node
+        builderConfig:
+          nodeInterfaceType: Node
+          idFetcher: '@=resolver("node", [value])'
       # Access a single user field
       user:
         type: "User"

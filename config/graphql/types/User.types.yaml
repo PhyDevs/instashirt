@@ -4,6 +4,7 @@ User:
     description: "The User type."
     fields:
       id:
-        type: "String!"
+        type: "ID!"
       username:
         type: "String!"
+    interfaces: ["Node"]

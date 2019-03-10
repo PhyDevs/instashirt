@@ -4,7 +4,7 @@ Comment:
     description: "The Comment type."
     fields:
       id:
-        type: "Int!"
+        type: "ID!"
       content:
         type: "String!"
       published_date:
@@ -13,3 +13,4 @@ Comment:
         type: "User"
       shirt:
         type: "Shirt"
+    interfaces: ["Node"]

@@ -8,3 +8,11 @@ User:
       username:
         type: "String!"
     interfaces: ["Node"]
+
+UserConnection:
+  type: relay-connection
+  config:
+    nodeType: "User"
+    connectionFields:
+      totalCount:
+        type: "Int!"

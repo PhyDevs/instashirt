@@ -36,3 +36,9 @@ Query:
           id:
             type: "ID!"
         resolve: "@=resolver('get_comment', [args['id']])"
+      # Get a list of users field
+      users:
+        type: "UserConnection"
+        description: "Get a list of users"
+        argsBuilder: "Relay::ForwardConnection"
+        resolve: "@=resolver('get_users', [args])"

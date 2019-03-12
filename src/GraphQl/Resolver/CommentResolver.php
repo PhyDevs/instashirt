@@ -2,7 +2,6 @@
 
 namespace App\GraphQl\Resolver;
 
-
 use App\Entity\Comment;
 use Doctrine\ORM\EntityManagerInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;

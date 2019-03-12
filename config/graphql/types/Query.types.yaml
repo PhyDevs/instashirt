@@ -48,3 +48,9 @@ Query:
           id:
             type: "ID!"
         resolve: "@=resolver('get_comment', [args['id']])"
+      # Get a list of comments field
+      comments:
+        type: "CommentConnection"
+        description: "Get a list of comments"
+        argsBuilder: "Relay::ForwardConnection"
+        resolve: "@=resolver('get_comments', [args])"

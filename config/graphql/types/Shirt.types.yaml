@@ -20,3 +20,11 @@ Shirt:
       author:
         type: "User"
     interfaces: ["Node"]
+
+ShirtConnection:
+  type: relay-connection
+  config:
+    nodeType: "Shirt"
+    connectionFields:
+      totalCount:
+        type: "Int!"

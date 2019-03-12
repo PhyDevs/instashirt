@@ -18,6 +18,12 @@ Query:
           username:
             type: "String"
         resolve: "@=resolver('get_user', [args])"
+      # Get a list of users field
+      users:
+        type: "UserConnection"
+        description: "Get a list of users"
+        argsBuilder: "Relay::ForwardConnection"
+        resolve: "@=resolver('get_users', [args])"
       # Access a single shirt field
       shirt:
         type: "Shirt"
@@ -28,6 +34,12 @@ Query:
           slug:
             type: "String"
         resolve: "@=resolver('get_shirt', [args])"
+      # Get a list of shirts field
+      shirts:
+        type: "ShirtConnection"
+        description: "Get a list of shirts"
+        argsBuilder: "Relay::Connection"
+        resolve: "@=resolver('get_shirts', [args])"
       # Access a single comment field
       comment:
         type: "Comment"
@@ -36,9 +48,3 @@ Query:
           id:
             type: "ID!"
         resolve: "@=resolver('get_comment', [args['id']])"
-      # Get a list of users field
-      users:
-        type: "UserConnection"
-        description: "Get a list of users"
-        argsBuilder: "Relay::ForwardConnection"
-        resolve: "@=resolver('get_users', [args])"

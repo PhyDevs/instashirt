@@ -16,3 +16,23 @@ UserConnection:
     connectionFields:
       totalCount:
         type: "Int!"
+
+userPayload:
+  type: relay-mutation-payload
+  config:
+    fields:
+      id:
+        type: "ID!"
+      username:
+        type: "String!"
+
+createUserInput:
+  type: relay-mutation-input
+  config:
+    fields:
+      username:
+        type: "String!"
+      email:
+        type: "String!"
+      password:
+        type: "String!"

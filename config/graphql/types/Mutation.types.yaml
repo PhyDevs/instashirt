@@ -2,3 +2,13 @@ Mutation:
   type: object
   config:
     description: "The Root Mutation type."
+    fields:
+      # Create a single user
+      createUser:
+        type: userPayload
+        description: "Create a User."
+        builder: "Relay::Mutation"
+        builderConfig:
+          inputType: "createUserInput"
+          payloadType: "userPayload"
+          mutateAndGetPayload: "@=mutation('create_user', [value])"

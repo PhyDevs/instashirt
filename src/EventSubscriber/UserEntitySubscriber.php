@@ -30,7 +30,8 @@ class UserEntitySubscriber implements EventSubscriber
         $em = $args->getEntityManager();
         $uow = $em->getUnitOfWork();
 
-        foreach ($uow->getScheduledEntityInsertions() as $entity) {
+        $entities = array_merge($uow->getScheduledEntityInsertions(), $uow->getScheduledEntityUpdates());
+        foreach ($entities as $entity) {
             if (!$entity instanceof UserInterface)
             {
                 return;

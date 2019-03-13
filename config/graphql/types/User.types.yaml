@@ -36,3 +36,14 @@ createUserInput:
         type: "String!"
       password:
         type: "String!"
+
+updateUserInput:
+  type: relay-mutation-input
+  config:
+    fields:
+      username:
+        type: "String!"
+      email:
+        type: "String"
+      password:
+        type: "String"

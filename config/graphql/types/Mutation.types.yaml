@@ -19,3 +19,11 @@ Mutation:
           inputType: "updateUserInput"
           payloadType: "userPayload"
           mutateAndGetPayload: "@=mutation('update_user', [value])"
+      # Delete a user field
+      deleteUser:
+        description: "Delete a User."
+        builder: "Relay::Mutation"
+        builderConfig:
+          inputType: "deleteUserInput"
+          payloadType: "deleteUserPayload"
+          mutateAndGetPayload: "@=mutation('delete_user', [value])"

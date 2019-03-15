@@ -47,3 +47,17 @@ updateUserInput:
         type: "String"
       password:
         type: "String"
+
+deleteUserPayload:
+  type: relay-mutation-payload
+  config:
+    fields:
+      id:
+        type: "ID!"
+
+deleteUserInput:
+  type: relay-mutation-input
+  config:
+    fields:
+      username:
+        type: "String!"

@@ -15,11 +15,13 @@ class UserMutation implements MutationInterface, AliasedInterface
 {
     private $em;
     private $validator;
+    private $user_repository;
 
     public function __construct(EntityManagerInterface $manager, ValidatorInterface $validator)
     {
         $this->em = $manager;
         $this->validator = $validator;
+        $this->user_repository = $this->em->getRepository(User::class);
     }
 
     public function createUser(Argument $value)
@@ -44,7 +46,7 @@ class UserMutation implements MutationInterface, AliasedInterface
     public function updateUser(Argument $value)
     {
         $args = $value->getRawArguments();
-        $user = $this->em->getRepository(User::class)->findOneBy(['username' => $args['username'] ?? null]);
+        $user = $this->user_repository->findOneBy(['username' => $args['username'] ?? null]);
         if(!$user) {
             throw new UserError(sprintf("No User found with username : %s", $args['username'] ?? null));
         }
@@ -61,7 +63,24 @@ class UserMutation implements MutationInterface, AliasedInterface
             'username' => $user->getUsername(),
             'clientMutationId' => $args['clientMutationId'] ?? null
         ];
+    }
 
+    public function deleteUser(Argument $value)
+    {
+        $args = $value->getRawArguments();
+        $user = $this->user_repository->findOneBy(['username' => $args['username'] ?? null]);
+        if(!$user) {
+            throw new UserError(sprintf("No User found with username : %s", $args['username'] ?? null));
+        }
+        $id = $user->getId();
+
+        $this->em->remove($user);
+        $this->em->flush();
+
+        return [
+            'id' => $id,
+            'clientMutationId' => $args['clientMutationId'] ?? null
+        ];
     }
 
     private function validateUser(User $user)
@@ -85,6 +104,7 @@ class UserMutation implements MutationInterface, AliasedInterface
         return [
             'createUser' => 'create_user',
             'updateUser' => 'update_user',
+            'deleteUser' => 'delete_user'
         ];
     }
 }

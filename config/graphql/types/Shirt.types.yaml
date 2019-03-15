@@ -34,7 +34,7 @@ shirtPayload:
   config:
     fields:
       id:
-        type: "String!"
+        type: "ID!"
       title:
         type: "String!"
       slug:
@@ -62,3 +62,18 @@ createShirtInput:
         type: "String!"
       back_path:
         type: "String!"
+
+updateShirtInput:
+  type: relay-mutation-input
+  config:
+    fields:
+      id:
+        type: "ID!"
+      title:
+        type: "String"
+      description:
+        type: "String"
+      front_path:
+        type: "String"
+      back_path:
+        type: "String"

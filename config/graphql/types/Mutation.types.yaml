@@ -36,3 +36,11 @@ Mutation:
           inputType: "createShirtInput"
           payloadType: "shirtPayload"
           mutateAndGetPayload: "@=mutation('create_shirt', [value])"
+      # Update a single shirt
+      updateShirt:
+        description: "Update a Shirt."
+        builder: "Relay::Mutation"
+        builderConfig:
+          inputType: "updateShirtInput"
+          payloadType: "shirtPayload"
+          mutateAndGetPayload: "@=mutation('update_shirt', [value])"

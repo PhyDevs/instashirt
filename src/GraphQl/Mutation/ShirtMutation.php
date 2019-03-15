@@ -47,39 +47,44 @@ class ShirtMutation implements MutationInterface, AliasedInterface
         $this->em->persist($shirt);
         $this->em->flush();
 
-        return [
-            "id" => $shirt->getId() ?? "",
-            "title" => $shirt->getTitle(),
-            "slug" => $shirt->getSlug(),
-            "description" => $shirt->getDescription(),
-            "front_path" => $shirt->getFrontPath(),
-            "back_path" => $shirt->getBackPath(),
-            "published_date" => $shirt->getPublishedDate() ?? new \DateTime('now'),
-            "author" => [
-                "id" => $shirt->getAuthor() ? $shirt->getAuthor()->getId() : null,
-                "username" => $shirt->getAuthor() ? $shirt->getAuthor()->getUsername() : null,
-            ],
-            "clientMutationId" => $args["clientMutationId"] ?? null
-        ];
+        return $this->shirtToArr($shirt);
+    }
+
+    public function updateShirt(Argument $value)
+    {
+        $args = $value->getRawArguments();
+        $shirt = $this->shirt_repository->find( $args['id'] ?? '');
+        if(!$shirt) {
+            throw new UserError(sprintf("No Shirt found with id : %s", $args['id'] ?? null));
+        }
+        if(isset($args['title']) && trim($args['title']) !== $shirt->getTitle()) {
+            $shirt->setTitle(trim($args['title']));
+            $slug = $this->generateSlug($shirt->getTitle());
+            $shirt->setSlug($slug);
+        }
+
+        $shirt->setDescription($args['description'] ?? $shirt->getDescription());
+        $shirt->setFrontPath($args['front_path'] ?? $shirt->getFrontPath());
+        $shirt->setBackPath($args['back_path'] ?? $shirt->getBackPath());
+
+        $this->em->flush();
+
+        return $this->shirtToArr($shirt);
     }
 
     private function generateSlug(?string $title)
     {
         $slug = $this->slugify->slugify($title);
-        if( empty($slug) )
-        {
+        if( empty($slug) ) {
             throw new UserError(sprintf("The title value is not valid."));
         }
 
         $counter = 1;
         while( $this->shirt_repository->findOneBy(["slug" => $slug]) )
         {
-            if($counter > 1) {
-                $slug = substr_replace($slug, $counter, -strlen((string) $counter-1));
-            }
-            else {
-                $slug .= '-' . $counter;
-            }
+            $slug = ($counter > 1) ?
+                substr_replace($slug, $counter, -strlen((string) $counter-1)) :
+                $slug.'-'.$counter;
             $counter++;
         }
         return $slug;
@@ -101,10 +106,28 @@ class ShirtMutation implements MutationInterface, AliasedInterface
         }
     }
 
+    private function shirtToArr(Shirt $shirt)
+    {
+        return [
+            "id" => $shirt->getId() ?? "",
+            "title" => $shirt->getTitle(),
+            "slug" => $shirt->getSlug(),
+            "description" => $shirt->getDescription(),
+            "front_path" => $shirt->getFrontPath(),
+            "back_path" => $shirt->getBackPath(),
+            "published_date" => $shirt->getPublishedDate() ?? new \DateTime('now'),
+            "author" => [
+                "id" => $shirt->getAuthor() ? $shirt->getAuthor()->getId() : null,
+                "username" => $shirt->getAuthor() ? $shirt->getAuthor()->getUsername() : null,
+            ],
+        ];
+    }
+
     public static function getAliases()
     {
         return [
-            "createShirt" => "create_shirt",
+            'createShirt' => 'create_shirt',
+            'updateShirt' => 'update_shirt',
         ];
     }
 }

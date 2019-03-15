@@ -27,3 +27,12 @@ Mutation:
           inputType: "deleteUserInput"
           payloadType: "deleteUserPayload"
           mutateAndGetPayload: "@=mutation('delete_user', [value])"
+
+      # Create a single shirt
+      createShirt:
+        description: "Create a Shirt."
+        builder: "Relay::Mutation"
+        builderConfig:
+          inputType: "createShirtInput"
+          payloadType: "shirtPayload"
+          mutateAndGetPayload: "@=mutation('create_shirt', [value])"

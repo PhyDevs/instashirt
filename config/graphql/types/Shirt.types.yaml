@@ -28,3 +28,37 @@ ShirtConnection:
     connectionFields:
       totalCount:
         type: "Int!"
+
+shirtPayload:
+  type: relay-mutation-payload
+  config:
+    fields:
+      id:
+        type: "String!"
+      title:
+        type: "String!"
+      slug:
+        type: "String!"
+      description:
+        type: "String"
+      front_path:
+        type: "String!"
+      back_path:
+        type: "String!"
+      published_date:
+        type: "DateTime!"
+      author:
+        type: "User"
+
+createShirtInput:
+  type: relay-mutation-input
+  config:
+    fields:
+      title:
+        type: "String!"
+      description:
+        type: "String"
+      front_path:
+        type: "String!"
+      back_path:
+        type: "String!"

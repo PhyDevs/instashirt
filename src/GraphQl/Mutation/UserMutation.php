@@ -93,7 +93,7 @@ class UserMutation implements MutationInterface, AliasedInterface
             {
                 $msg = (string) $error->getMessage();
                 $property=  (string) $error->getPropertyPath();
-                $user_errors[] =new UserError(sprintf("%s: %s", $property, $msg));
+                $user_errors[] = new UserError(sprintf("%s: %s", $property, $msg));
             }
             throw new UserErrors($user_errors);
         }

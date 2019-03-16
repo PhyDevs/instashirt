@@ -43,3 +43,12 @@ createCommentInput:
         type: "String!"
       shirtID:
         type: "ID!"
+
+updateCommentInput:
+  type: relay-mutation-input
+  config:
+    fields:
+      id:
+        type: "ID!"
+      content:
+        type: "String!"

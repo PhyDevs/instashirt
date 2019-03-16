@@ -13,9 +13,12 @@ use Overblog\GraphQLBundle\Error\UserError;
 class CommentMutation implements MutationInterface, AliasedInterface
 {
     private $em;
+    private $comment_repository;
     public function __construct(EntityManagerInterface $manager)
     {
         $this->em = $manager;
+        $this->comment_repository = $this->em->getRepository(Comment::class);
+
     }
 
     public function createComment(Argument $value)
@@ -24,7 +27,7 @@ class CommentMutation implements MutationInterface, AliasedInterface
 
         $shirt = $this->em->getRepository(Shirt::class)->find($args['shirtID'] ?? '');
         if (!$shirt) {
-            throw new UserError(sprintf("No shirt has been found with ID: %s", $args['shirtID'] ?? ''));
+            throw new UserError(sprintf("No shirt has been found with shirtID: %s", $args['shirtID'] ?? ''));
         }
         if (!isset($args['content']) || empty(trim($args['content']))) {
             throw new UserError("The content value should not be blank.");
@@ -35,6 +38,23 @@ class CommentMutation implements MutationInterface, AliasedInterface
 
         $this->em->persist($comment);
         $this->em->flush();
+
+        return $this->commentToArr($comment);
+    }
+
+    public function updateComment(Argument $value)
+    {
+        $args = $value->getRawArguments();
+
+        $comment = $this->comment_repository->find($args['id'] ?? '');
+        if(!$comment) {
+            throw new UserError(sprintf("No comment has been found with id: %s", $args['id'] ?? ''));
+        }
+
+        if(isset($args['content']) && $args['content'] !== $comment->getContent()) {
+            $comment->setContent($args['content']);
+            $this->em->flush();
+        }
 
         return $this->commentToArr($comment);
     }
@@ -70,6 +90,7 @@ class CommentMutation implements MutationInterface, AliasedInterface
     {
         return [
             'createComment' => 'create_comment',
+            'updateComment' => 'update_comment',
         ];
     }
 }

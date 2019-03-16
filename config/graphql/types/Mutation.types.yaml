@@ -61,3 +61,11 @@ Mutation:
           inputType: "createCommentInput"
           payloadType: "commentPayload"
           mutateAndGetPayload: "@=mutation('create_comment', [value])"
+      # Update a single Comment
+      updateComment:
+        description: "Update a Comment."
+        builder: "Relay::Mutation"
+        builderConfig:
+          inputType: "updateCommentInput"
+          payloadType: "commentPayload"
+          mutateAndGetPayload: "@=mutation('update_comment', [value])"

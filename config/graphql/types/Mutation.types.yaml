@@ -52,3 +52,12 @@ Mutation:
           inputType: "deleteShirtInput"
           payloadType: "deleteShirtPayload"
           mutateAndGetPayload: "@=mutation('delete_shirt', [value])"
+
+      # Create a single Comment
+      createComment:
+        description: "Create a Comment."
+        builder: "Relay::Mutation"
+        builderConfig:
+          inputType: "createCommentInput"
+          payloadType: "commentPayload"
+          mutateAndGetPayload: "@=mutation('create_comment', [value])"

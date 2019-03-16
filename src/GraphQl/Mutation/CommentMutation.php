@@ -1,0 +1,75 @@
+<?php
+
+namespace App\GraphQl\Mutation;
+
+use App\Entity\Comment;
+use App\Entity\Shirt;
+use Doctrine\ORM\EntityManagerInterface;
+use Overblog\GraphQLBundle\Definition\Argument;
+use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
+use Overblog\GraphQLBundle\Definition\Resolver\MutationInterface;
+use Overblog\GraphQLBundle\Error\UserError;
+
+class CommentMutation implements MutationInterface, AliasedInterface
+{
+    private $em;
+    public function __construct(EntityManagerInterface $manager)
+    {
+        $this->em = $manager;
+    }
+
+    public function createComment(Argument $value)
+    {
+        $args = $value->getRawArguments();
+
+        $shirt = $this->em->getRepository(Shirt::class)->find($args['shirtID'] ?? '');
+        if (!$shirt) {
+            throw new UserError(sprintf("No shirt has been found with ID: %s", $args['shirtID'] ?? ''));
+        }
+        if (!isset($args['content']) || empty(trim($args['content']))) {
+            throw new UserError("The content value should not be blank.");
+        }
+        $comment = new Comment();
+        $comment->setContent(trim($args['content']));
+        $comment->setShirt($shirt);
+
+        $this->em->persist($comment);
+        $this->em->flush();
+
+        return $this->commentToArr($comment);
+    }
+
+    private function commentToArr(Comment $comment)
+    {
+        $shirt = $comment->getShirt();
+        return [
+            'id' => $comment->getId() ?? "",
+            'content' => $comment->getContent(),
+            'published_date' => $comment->getPublishedDate() ?? new \DateTime('now'),
+            'author' => [
+                'id' => $comment->getAuthor() ? $comment->getAuthor()->getId() : null,
+                'username' => $comment->getAuthor() ? $comment->getAuthor()->getUsername() : null
+            ],
+            'shirt' => [
+                "id" => $comment->getShirt()->getId(),
+                "title" => $comment->getShirt()->getTitle(),
+                "slug" => $comment->getShirt()->getSlug(),
+                "description" => $comment->getShirt()->getDescription(),
+                "front_path" => $comment->getShirt()->getFrontPath(),
+                "back_path" => $comment->getShirt()->getBackPath(),
+                "published_date" => $comment->getShirt()->getPublishedDate(),
+                "author" => [
+                    "id" => $shirt->getAuthor() ? $shirt->getAuthor()->getId() : null,
+                    "username" => $shirt->getAuthor() ? $shirt->getAuthor()->getUsername() : null,
+                ]
+            ]
+        ];
+    }
+
+    static public function getAliases()
+    {
+        return [
+            'createComment' => 'create_comment',
+        ];
+    }
+}

@@ -19,3 +19,27 @@ CommentConnection:
   type: relay-connection
   config:
     nodeType: "Comment"
+
+commentPayload:
+  type: relay-mutation-payload
+  config:
+    fields:
+      id:
+        type: "ID!"
+      content:
+        type: "String!"
+      published_date:
+        type: "DateTime!"
+      author:
+        type: "User"
+      shirt:
+        type: "Shirt"
+
+createCommentInput:
+  type: relay-mutation-input
+  config:
+    fields:
+      content:
+        type: "String!"
+      shirtID:
+        type: "ID!"

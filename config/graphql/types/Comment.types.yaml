@@ -52,3 +52,17 @@ updateCommentInput:
         type: "ID!"
       content:
         type: "String!"
+
+deleteCommentPayload:
+  type: relay-mutation-payload
+  config:
+    fields:
+      id:
+        type: "ID!"
+
+deleteCommentInput:
+  type: relay-mutation-input
+  config:
+    fields:
+      id:
+        type: "ID!"

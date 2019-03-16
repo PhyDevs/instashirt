@@ -59,6 +59,23 @@ class CommentMutation implements MutationInterface, AliasedInterface
         return $this->commentToArr($comment);
     }
 
+    public function deleteComment(Argument $value)
+    {
+        $args = $value->getRawArguments();
+        $comment = $this->comment_repository->find($args['id'] ?? '');
+        if(!$comment) {
+            throw new UserError(sprintf("No comment has benn found with id: %s", $args['id'] ?? ''));
+        }
+        $id = $comment->getId();
+
+        $this->em->remove($comment);
+        $this->em->flush();
+
+        return [
+            'id' => $id
+        ];
+    }
+
     private function commentToArr(Comment $comment)
     {
         $shirt = $comment->getShirt();
@@ -91,6 +108,7 @@ class CommentMutation implements MutationInterface, AliasedInterface
         return [
             'createComment' => 'create_comment',
             'updateComment' => 'update_comment',
+            'deleteComment' => 'delete_comment'
         ];
     }
 }

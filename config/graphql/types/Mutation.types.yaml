@@ -69,3 +69,11 @@ Mutation:
           inputType: "updateCommentInput"
           payloadType: "commentPayload"
           mutateAndGetPayload: "@=mutation('update_comment', [value])"
+      # Delete s single Comment
+      deleteComment:
+        description: "Delete a Comment."
+        builder: "Relay::Mutation"
+        builderConfig:
+          inputType: "deleteCommentInput"
+          payloadType: "deleteCommentPayload"
+          mutateAndGetPayload: "@=mutation('delete_comment', [value])"

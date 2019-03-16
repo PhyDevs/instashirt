@@ -77,3 +77,19 @@ updateShirtInput:
         type: "String"
       back_path:
         type: "String"
+
+deleteShirtPayload:
+  type: relay-mutation-payload
+  config:
+    fields:
+      id:
+        type: "ID!"
+
+deleteShirtInput:
+  type: relay-mutation-input
+  config:
+    fields:
+      id:
+        type: "ID"
+      slug:
+        type: "String"

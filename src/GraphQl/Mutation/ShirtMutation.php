@@ -72,6 +72,29 @@ class ShirtMutation implements MutationInterface, AliasedInterface
         return $this->shirtToArr($shirt);
     }
 
+    public function deleteShirt(Argument $value)
+    {
+        $args = $value->getRawArguments();
+        $criteria = [ array_keys($args)[0] ?? null => array_shift($args) ];
+        if( !array_key_exists('id', $criteria) && !array_key_exists('slug', $criteria))
+        {
+            throw new UserError("Field 'shirt' is missing required argument: id or slug");
+        }
+
+        $shirt = $this->shirt_repository->findOneBy($criteria);
+        if (!$shirt) {
+            throw new UserError("No shirt has been found");
+        }
+        $id = $shirt->getId();
+
+        $this->em->remove($shirt);
+        $this->em->flush();
+
+        return [
+            'id' => $id
+        ];
+    }
+
     private function generateSlug(?string $title)
     {
         $slug = $this->slugify->slugify($title);
@@ -128,6 +151,7 @@ class ShirtMutation implements MutationInterface, AliasedInterface
         return [
             'createShirt' => 'create_shirt',
             'updateShirt' => 'update_shirt',
+            'deleteShirt' => 'delete_shirt'
         ];
     }
 }

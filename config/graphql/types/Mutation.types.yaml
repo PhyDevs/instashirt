@@ -44,3 +44,11 @@ Mutation:
           inputType: "updateShirtInput"
           payloadType: "shirtPayload"
           mutateAndGetPayload: "@=mutation('update_shirt', [value])"
+      # Delete s single Shirt
+      deleteShirt:
+        description: "Delete a Shirt."
+        builder: "Relay::Mutation"
+        builderConfig:
+          inputType: "deleteShirtInput"
+          payloadType: "deleteShirtPayload"
+          mutateAndGetPayload: "@=mutation('delete_shirt', [value])"

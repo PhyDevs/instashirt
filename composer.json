@@ -65,6 +65,8 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.1",
+        "fzaninotto/faker": "^1.8",
         "overblog/graphiql-bundle": "^0.1.2",
         "symfony/apache-pack": "^1.0",
         "symfony/maker-bundle": "^1.11",

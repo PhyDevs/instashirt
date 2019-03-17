@@ -3,9 +3,10 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class UserFixtures extends BaseFixture
+class UserFixtures extends BaseFixture implements OrderedFixtureInterface
 {
     protected function loadData(ObjectManager $manager)
     {
@@ -20,5 +21,10 @@ class UserFixtures extends BaseFixture
             }
         });
         $manager->flush();
+    }
+
+    public function getOrder()
+    {
+        return 10;
     }
 }

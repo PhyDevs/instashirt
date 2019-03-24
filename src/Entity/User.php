@@ -45,6 +45,11 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Shirt", mappedBy="author", orphanRemoval=true)
      */
     private $shirts;
@@ -96,7 +101,20 @@ class User implements UserInterface
         $this->password = $password;
     }
 
-    public function getRoles() { }
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
     public function getSalt()  { }
     public function eraseCredentials() { }
 }

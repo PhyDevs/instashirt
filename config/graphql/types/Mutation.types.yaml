@@ -77,3 +77,12 @@ Mutation:
           inputType: "deleteCommentInput"
           payloadType: "deleteCommentPayload"
           mutateAndGetPayload: "@=mutation('delete_comment', [value])"
+      # Authenticate a User
+      login:
+        description: "Authenticate a User"
+        access: "@=!isAuthenticated()"
+        builder: "Relay::Mutation"
+        builderConfig:
+          inputType: "LoginInput"
+          payloadType: "userPayload"
+          mutateAndGetPayload: "@=mutation('login', [value])"

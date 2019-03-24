@@ -86,3 +86,12 @@ Mutation:
           inputType: "LoginInput"
           payloadType: "userPayload"
           mutateAndGetPayload: "@=mutation('login', [value])"
+      # Logout a User
+      logout:
+        description: "Log out a User"
+        type: "logoutPayload"
+        access: "@=isAuthenticated()"
+        resolve: "@=mutation('logout', [args['input']['clientMutationId']])"
+        args:
+          input:
+            type: "logoutInput"

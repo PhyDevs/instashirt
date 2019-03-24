@@ -8,3 +8,17 @@ LoginInput:
         type: "String"
       password:
         type: "String!"
+
+logoutPayload:
+  type: object
+  config:
+    fields:
+      clientMutationId:
+        type: "String!"
+
+logoutInput:
+  type: input-object
+  config:
+    fields:
+      clientMutationId:
+        type: "String!"

@@ -79,4 +79,11 @@ class Authenticator
 
         $this->handler->handleAuthenticationSuccess($user, $token);
     }
+
+    public function removeToken()
+    {
+        $response = new Response();
+        $response->headers->clearCookie('BEARER', '/graphql');
+        $response->send();
+    }
 }

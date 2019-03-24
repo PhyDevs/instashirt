@@ -43,10 +43,20 @@ class SecurityMutation implements MutationInterface, AliasedInterface
         ];
     }
 
+    public function logout(?string $clientMutationId)
+    {
+        $this->authenticator->removeToken();
+
+        return [
+            'clientMutationId' => $clientMutationId ?? "true"
+        ];
+    }
+
     static public function getAliases()
     {
         return [
-            'login' => 'login'
+            'login' => 'login',
+            'logout' => 'logout'
         ];
     }
 }

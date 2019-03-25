@@ -3,7 +3,9 @@
 namespace App\GraphQl\Mutation;
 
 use App\Entity\User;
+use App\Security\Authenticator;
 use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\MutationInterface;
@@ -15,12 +17,21 @@ class UserMutation implements MutationInterface, AliasedInterface
 {
     private $em;
     private $validator;
+    private  $JWTTokenManager;
+    private $authenticator;
     private $user_repository;
 
-    public function __construct(EntityManagerInterface $manager, ValidatorInterface $validator)
+    public function __construct(
+        EntityManagerInterface $manager,
+        ValidatorInterface $validator,
+        JWTTokenManagerInterface $JWTTokenManager,
+        Authenticator $auth
+    )
     {
         $this->em = $manager;
         $this->validator = $validator;
+        $this->JWTTokenManager = $JWTTokenManager;
+        $this->authenticator = $auth;
         $this->user_repository = $this->em->getRepository(User::class);
     }
 
@@ -35,6 +46,7 @@ class UserMutation implements MutationInterface, AliasedInterface
         $this->validateUser($user);
         $this->em->persist($user);
         $this->em->flush();
+        $this->authenticator->saveToken($user, $this->JWTTokenManager->create($user));
 
         return [
             'id' => $user->getId(),
